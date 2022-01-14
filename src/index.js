@@ -13,10 +13,29 @@ module.exports = function toReadable (number) {
   function getFromTwentyToNinetyNine (digits) {
     const array = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
     const units = digits % 10; 
-    const tens = digits - units;
-
-    return (array[tens-2] + ' ' + getFromZeroToNine(units));
+    const tens = (digits - units) / 10;
+    const outputString = (units === 0) ? array[tens-2] : (array[tens-2] + ' ' + getFromZeroToNine(units));
+    return outputString;
   }
+
+  function getFromZeroToNinetyNine (digits) {
+    let outputString;
+    switch (true) {
+      case digits < 10  : outputString = getFromZeroToNine (digits);
+        break;
+      case digits < 20  : outputString = getFromTenToNineteen (digits);
+        break;
+      default           : outputString = getFromTwentyToNinetyNine (digits);
+    }    
+    return outputString;
+  }
+
+  function getHundreds (digit) {
+    let hundreds = (digit !== 0) ? getFromZeroToNine(digit) + ' hundred' : '';
+    return hundreds;
+    ;
+  }
+
 }
 
 
