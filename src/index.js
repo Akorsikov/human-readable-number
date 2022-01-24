@@ -35,13 +35,29 @@ module.exports = function toReadable (number) {
     return hundreds;
     ;
   }
-
+  
+  function getFromZeroTo999 (digits) {
+      const tens = digits % 100
+      const hundreds = (digits - tens) / 100;
+      let outputString = getHundreds(hundreds);
+      if (tens !== 0) outputString = (outputString + ' ' + getFromZeroToNinetyNine (tens));
+      return outputString;
+  }
+  
+  const lengthNumber = String(number).length;
+  
+  
+  switch (true) {
+    case (lengthNumber === 1) :
+        return getFromZeroToNine(number);
+    case (lengthNumber === 2) :
+        return getFromZeroToNinetyNine(number);
+    case (lengthNumber === 3) :
+        return getFromZeroTo999(number);
+    //case (lengthNumber === 4) :
+        //return getFromZeroToNinetyNine(number) + ' thousand' + ;
+    default : return ('Large number!');
+    
+  }
+ 
 }
-
-
-//        0  -  9 [zero, one, two, three, four, five, six, seven, eight, nine]
-//       10  - 19 [ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen]
-//       20  - 90 [twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety]
-//      100  -    [hundred] 
-//     1000  -    [thousand]
-//  1000000  -    [million], [trillion]
